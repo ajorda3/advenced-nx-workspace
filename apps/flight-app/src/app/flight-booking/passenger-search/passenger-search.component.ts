@@ -1,4 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
+import { Passenger, PassengerService } from '@flight-workspace/passenger-api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-passenger-search',
@@ -7,5 +9,13 @@ import {Component, ViewEncapsulation} from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class PassengerSearchComponent {
+   passangers$: Observable<Passenger[]>;
 
+  constructor(protected passengerService: PassengerService) {
+    this.passangers$ = this.passengerService.findAll();
+  }
+
+  deletePassanger(passanger: Passenger) {
+    this.passengerService.delete(passanger.id).subscribe();
+  }
 }

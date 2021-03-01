@@ -16,13 +16,14 @@ import { SharedModule } from './shared/shared.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoggerModule } from '@flight-workspace/logger-lib';
 import { CustomLogFormatterService } from './shared/logging/custom-log-formatter.service';
+import { PassengerApiModule } from '@flight-workspace/passenger-api';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
     FlightBookingModule,
-
+    PassengerApiModule,
     BrowserAnimationsModule,
     FlightCancellingModule,
     LoggerModule.forRoot({enableDebug: true, logFormatter: CustomLogFormatterService}),

@@ -1,3 +1,12 @@
-<p>
-  passenger-search works!
-</p>
+<div class="card">
+  <div class="header">
+    <h1 class="title">Passangers</h1>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-lg-3" *ngFor="let passanger of passangers$ | async">
+        <div (click)="deletePassanger(passanger)">{{passanger.name.slice(0, 20)}}</div>
+      </div>
+    </div>
+  </div>
+</div>

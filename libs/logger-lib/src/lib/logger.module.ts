@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LogMonitorComponent } from './log-monitor.component';
 import { LoggerConfig } from './logger.config';
-import { LoggerService } from './logger.service';
+import { LogFormatterService } from './log-formatter.service';
 
 // imports: [ LoggerModule.forRoot({ ... }) ]
 
@@ -28,7 +28,8 @@ export class LoggerModule {
     return {
       ngModule: LoggerModule,
       providers: [
-        { provide: LoggerConfig, useValue: config }
+        {provide: LoggerConfig, useValue: config},
+        {provide: LogFormatterService, useClass: config.logFormatter}
       ]
     }
   }

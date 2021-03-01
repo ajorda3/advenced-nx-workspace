@@ -14,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LoggerModule } from '@flight-workspace/logger-lib';
+import { CustomLogFormatterService } from './shared/logging/custom-log-formatter.service';
 
 @NgModule({
   imports: [
@@ -23,10 +25,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
     BrowserAnimationsModule,
     FlightCancellingModule,
-
+    LoggerModule.forRoot({enableDebug: true, logFormatter: CustomLogFormatterService}),
     FlightLibModule.forRoot(),
     SharedModule.forRoot(),
-    RouterModule.forRoot(APP_ROUTES, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(APP_ROUTES, {relativeLinkResolution: 'legacy'}),
   ],
   declarations: [
     AppComponent,
@@ -38,4 +40,5 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

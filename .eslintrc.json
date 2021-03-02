@@ -1,19 +1,10 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
-  "plugins": [
-    "@nrwl/nx"
-  ],
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
@@ -23,16 +14,11 @@
             "depConstraints": [
               {
                 "sourceTag": "e2e",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               },
               {
                 "sourceTag": "domain:flights",
-                "onlyDependOnLibsWithTags": [
-                  "domain:flights",
-                  "domain:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["domain:flights", "domain:shared"]
               },
               {
                 "sourceTag": "domain:dashboard",
@@ -43,10 +29,7 @@
               },
               {
                 "sourceTag": "domain:external",
-                "onlyDependOnLibsWithTags": [
-                  "domain:external",
-                  "domain:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["domain:external", "domain:shared"]
               },
               {
                 "sourceTag": "type:app",
@@ -76,22 +59,19 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": [
-                  "type:domain-logic",
-                  "type:util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:domain-logic", "type:util"]
               },
               {
                 "sourceTag": "type:domain-logic",
-                "onlyDependOnLibsWithTags": [
-                  "type:util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:util"]
               },
               {
                 "sourceTag": "domain:shared",
-                "onlyDependOnLibsWithTags": [
-                  "domain:shared"
-                ]
+                "onlyDependOnLibsWithTags": ["domain:shared"]
+              },
+              {
+                "sourceTag": "domain:luggage",
+                "onlyDependOnLibsWithTags": ["domain:luggage", "domain:shared"]
               }
             ]
           }
@@ -99,26 +79,16 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nrwl/nx/typescript"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
       "parserOptions": {
         "project": "./tsconfig.*?.json"
       },
       "rules": {}
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nrwl/nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     }
   ]

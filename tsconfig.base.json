@@ -18,7 +18,8 @@
       "@flight-workspace/flight-lib": ["libs/flight-lib/src/index.ts"],
       "@flight-workspace/logger-lib": ["libs/logger-lib/src/index.ts"],
       "@flight-workspace/dashboard-lib": ["libs/dashboard-lib/src/index.ts"],
-      "@flight-workspace/passenger-api": ["libs/passenger-api/src/index.ts"]
+      "@flight-workspace/passenger-api": ["libs/passenger-api/src/index.ts"],
+      "@flight-workspace/luggage/domain": ["libs/luggage/domain/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

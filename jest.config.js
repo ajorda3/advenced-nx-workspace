@@ -8,5 +8,7 @@ module.exports = {
     '<rootDir>/apps/dashboard',
     '<rootDir>/apps/external',
     '<rootDir>/libs/passenger-api',
+    '<rootDir>/libs/luggage/domain',
+    '<rootDir>/apps/luggage',
   ],
 };

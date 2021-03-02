@@ -25,7 +25,8 @@
       ],
       "@flight-workspace/luggage/feature-report-loss": [
         "libs/luggage/feature-report-loss/src/index.ts"
-      ]
+      ],
+      "@flight-workspace/luggage/ui-card": ["libs/luggage/ui-card/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -48,6 +48,7 @@
     "passenger-api": { "tags": [] },
     "luggage-domain": { "tags": ["domain:luggage", "type:domain-logic"] },
     "luggage": { "tags": ["domain:luggage", "type:app"] },
-    "luggage-e2e": { "tags": [], "implicitDependencies": ["luggage"] }
+    "luggage-e2e": { "tags": [], "implicitDependencies": ["luggage"] },
+    "luggage-feature-checkin": { "tags": ["domain:luggage", "type:feature"] }
   }
 }

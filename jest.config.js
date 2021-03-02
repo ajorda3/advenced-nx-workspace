@@ -10,5 +10,6 @@ module.exports = {
     '<rootDir>/libs/passenger-api',
     '<rootDir>/libs/luggage/domain',
     '<rootDir>/apps/luggage',
+    '<rootDir>/libs/luggage/feature-checkin',
   ],
 };

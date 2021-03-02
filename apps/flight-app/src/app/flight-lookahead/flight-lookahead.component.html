@@ -12,6 +12,7 @@
 
     <div *ngIf="loading">Loading ...</div>
 
+    <div *ngIf="diff$ | async as diff">Diff: {{diff}} </div>
     <table class="table table-striped">
       <tr *ngFor="let f of flights$ | async">
         <td>{{f.id}}</td>

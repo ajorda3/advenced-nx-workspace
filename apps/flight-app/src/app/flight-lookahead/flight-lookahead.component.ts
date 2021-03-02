@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
-import { debounceTime, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, filter, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'flight-workspace-flight-lookahead',
@@ -22,6 +22,7 @@ export class FlightLookaheadComponent implements OnInit {
   ngOnInit(): void {
     this.control = new FormControl();
     this.flights$ = this.control.valueChanges.pipe(
+      filter(term => term?.length > 2),
       debounceTime(500),
       tap(_ => this.loading = true),
       switchMap((term: string) => this.flightService.find(term)),

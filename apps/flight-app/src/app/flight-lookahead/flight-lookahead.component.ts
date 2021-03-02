@@ -11,7 +11,8 @@ import { debounceTime, distinctUntilChanged, filter, map, pairwise, startWith, s
 })
 export class FlightLookaheadComponent implements OnInit {
 
-  control: FormControl;
+  controlFrom: FormControl;
+  controlTo: FormControl;
   flights$: Observable<Flight[]>
   loading: boolean
   diff$: Observable<number>;
@@ -22,7 +23,8 @@ export class FlightLookaheadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.control = new FormControl();
+    this.controlFrom = new FormControl();
+    this.controlTo = new FormControl();
 
     this.online$
       = interval(2000).pipe(
@@ -32,21 +34,28 @@ export class FlightLookaheadComponent implements OnInit {
       tap(value => this.online = value)
     );
 
-    const input$ = this.control.valueChanges.pipe(
+    const inputFrom$ = this.controlFrom.valueChanges.pipe(
+      filter(term => term?.length > 2),
+      debounceTime(500));
+
+
+    const inputTo$ = this.controlTo.valueChanges.pipe(
       filter(term => term?.length > 2),
       debounceTime(500));
 
     this.flights$ = combineLatest([
-      input$,
+      inputFrom$,
+      inputTo$,
       this.online$
     ]).pipe(
-      filter(([_, online]) => !!online),
-      map(([term, online]) => {
+      filter(([from, to, online]) => {
+        return !!online && !!from && !!to
+      }),
+      tap(([from, to, online]) => {
         this.online = !!online;
-        return term;
       }),
       tap(_ => this.loading = true),
-      switchMap((term: string) => this.flightService.find(term)),
+      switchMap(([from, to, online]) => this.flightService.find(from, to)),
       tap(_ => this.loading = false)
     );
 

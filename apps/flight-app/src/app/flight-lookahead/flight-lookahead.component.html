@@ -6,10 +6,15 @@
   <div class="content">
 
     <div>Online: {{online}}</div>
-    
+
     <div class="control-group">
-      <label>City</label>
-      <input [formControl]="control" class="form-control">
+      <label>From City</label>
+      <input [formControl]="controlFrom" class="form-control">
+    </div>
+
+    <div class="control-group">
+      <label>To City</label>
+      <input [formControl]="controlTo" class="form-control">
     </div>
 
     <div *ngIf="loading">Loading ...</div>

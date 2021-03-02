@@ -1,8 +1,8 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import {Observable} from 'rxjs';
-import {Flight} from '../models/flight';
+import { Observable } from 'rxjs';
+import { Flight } from '../models/flight';
 
 
 @Injectable({
@@ -13,7 +13,7 @@ export class FlightService {
   flights: Flight[] = [];
   baseUrl = `http://www.angular.at/api`;
   // baseUrl = `http://localhost:3000`;
-  
+
   reqDelay = 1000;
 
   constructor(private http: HttpClient) {
@@ -29,7 +29,7 @@ export class FlightService {
       );
   }
 
-  find(from: string, to: string, urgent: boolean = false): Observable<Flight[]> {
+  find(from: string, to?: string, urgent: boolean = false): Observable<Flight[]> {
 
     // For offline access
     // let url = '/assets/data/data.json';
@@ -38,12 +38,16 @@ export class FlightService {
     let url = [this.baseUrl, 'flight'].join('/');
 
     if (urgent) {
-      url = [this.baseUrl,'error?code=403'].join('/');
+      url = [this.baseUrl, 'error?code=403'].join('/');
     }
 
-    const params = new HttpParams()
-      .set('from', from)
-      .set('to', to);
+    let params = new HttpParams()
+      .set('from', from);
+
+    if (to) {
+      params = params
+        .set('to', to);
+    }
 
     const headers = new HttpHeaders()
       .set('Accept', 'application/json');
@@ -55,7 +59,7 @@ export class FlightService {
   }
 
   findById(id: string): Observable<Flight> {
-    const reqObj = { params: null };
+    const reqObj = {params: null};
     reqObj.params = new HttpParams().set('id', id);
     const url = [this.baseUrl, 'flight'].join('/');
     return this.http.get<Flight>(url, reqObj);

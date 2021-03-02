@@ -17,6 +17,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoggerModule } from '@flight-workspace/logger-lib';
 import { CustomLogFormatterService } from './shared/logging/custom-log-formatter.service';
 import { PassengerApiModule } from '@flight-workspace/passenger-api';
+import { FlightLookaheadComponent } from './flight-lookahead/flight-lookahead.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { PassengerApiModule } from '@flight-workspace/passenger-api';
     BrowserAnimationsModule,
     FlightCancellingModule,
     LoggerModule.forRoot({enableDebug: true, logFormatter: CustomLogFormatterService}),
+    ReactiveFormsModule,
     FlightLibModule.forRoot(),
     SharedModule.forRoot(),
     RouterModule.forRoot(APP_ROUTES, {relativeLinkResolution: 'legacy'}),
@@ -36,7 +39,8 @@ import { PassengerApiModule } from '@flight-workspace/passenger-api';
     SidebarComponent,
     NavbarComponent,
     HomeComponent,
-    BasketComponent
+    BasketComponent,
+    FlightLookaheadComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

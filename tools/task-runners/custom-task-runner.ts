@@ -15,7 +15,7 @@ class CustomRemoteCache implements RemoteCache {
 
     retrieve = (hash: string, cacheDirectory: string): Promise<boolean> => {
         console.debug('CustomRemoteCache::retrieve', { hash, cacheDirectory });
-        
+
         const hashCommit = hash + '.commit';
         const local = path.join(cacheDirectory, hash);
         const remote = path.join(this.remoteDirectory, hash);
@@ -34,7 +34,7 @@ class CustomRemoteCache implements RemoteCache {
 
     store = (hash: string, cacheDirectory: string): Promise<boolean> => {
         console.debug('CustomRemoteCache::store', { hash, cacheDirectory });
-        
+
         const hashCommit = hash + '.commit';
         const local = path.join(cacheDirectory, hash);
         const remote = path.join(this.remoteDirectory, hash);

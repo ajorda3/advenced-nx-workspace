@@ -1,20 +1,25 @@
-import { createReducer } from '@ngrx/store';
+import { createFeatureSelector, createReducer } from '@ngrx/store';
 import { Flight } from '@flight-workspace/flight-lib';
 import { flightsLoaded, updateFlight } from './flight-booking.actions';
 import { mutableOn } from 'ngrx-etc';
 
 export const flightBookingFeatureKey = 'flightBooking';
 
+export const selectFlightBooking = createFeatureSelector<State>('flightBooking');
+
+
 export interface FlightBookingAppState {
   [flightBookingFeatureKey]: State
 }
 
 export interface State {
-  flights: Flight[];
+  flights: Flight[],
+  negativeList: number[]
 }
 
 export const initialState: State = {
-  flights: []
+  flights: [],
+  negativeList: [3]
 };
 
 

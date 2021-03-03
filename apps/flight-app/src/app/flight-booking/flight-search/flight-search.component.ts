@@ -3,10 +3,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
 import { Store } from '@ngrx/store';
-import { FlightBookingAppState } from '../+state/flight-booking.reducer';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { flightsLoaded, updateFlight } from '../+state/flight-booking.actions';
+import { selectFlightsWithProps } from '../+state/flight-booking.selectors';
 
 @Component({
   selector: 'flight-search',
@@ -32,12 +32,12 @@ export class FlightSearchComponent implements OnInit {
   };
 
   constructor(
-    protected store: Store<FlightBookingAppState>,
+    protected store: Store<any>,
     private flightService: FlightService) {
   }
 
   ngOnInit() {
-    this.flights$ = this.store.select(s => s.flightBooking.flights);
+    this.flights$ = this.store.select(selectFlightsWithProps, {blackList: [3]});
   }
 
   search(): void {
@@ -55,7 +55,7 @@ export class FlightSearchComponent implements OnInit {
 
       let oldDate = new Date(flight.date);
       let newDate = new Date(oldDate.getTime() + 15 * 60 * 1000);
-      let newFlight = { ...flight, date: newDate.toISOString() };
+      let newFlight = {...flight, date: newDate.toISOString()};
 
       this.store.dispatch(updateFlight({flight: newFlight}));
     });

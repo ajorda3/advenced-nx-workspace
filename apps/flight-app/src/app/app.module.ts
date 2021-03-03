@@ -19,6 +19,11 @@ import { CustomLogFormatterService } from './shared/logging/custom-log-formatter
 import { PassengerApiModule } from '@flight-workspace/passenger-api';
 import { FlightLookaheadComponent } from './flight-lookahead/flight-lookahead.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './+state';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -33,6 +38,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     FlightLibModule.forRoot(),
     SharedModule.forRoot(),
     RouterModule.forRoot(APP_ROUTES, {relativeLinkResolution: 'legacy'}),
+    EffectsModule.forRoot([]),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   declarations: [
     AppComponent,

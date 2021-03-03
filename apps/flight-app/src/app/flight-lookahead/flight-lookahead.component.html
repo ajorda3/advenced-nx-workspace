@@ -22,8 +22,22 @@
     <div *ngIf="loading">Loading ...</div>
 
     <div *ngIf="diff$ | async as diff">Diff: {{diff}} </div>
+
     <table class="table table-striped">
       <tr *ngFor="let f of flights$ | async">
+        <td>{{f.id}}</td>
+        <td>{{f.from}}</td>
+        <td>{{f.to}}</td>
+        <td>{{f.date | date:'dd.MM.yyyy HH:mm'}}</td>
+        <td><a (click)="select(f)">Select</a></td>
+      </tr>
+    </table>
+
+    <pre *ngIf="basket$ | async as basket">{{ basket | json }}</pre>
+
+    <div><h1>History</h1></div>
+    <table class="table table-striped">
+      <tr *ngFor="let f of history$ | async">
         <td>{{f.id}}</td>
         <td>{{f.from}}</td>
         <td>{{f.to}}</td>

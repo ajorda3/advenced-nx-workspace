@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pairwise,
+  pairwise, scan,
   shareReplay,
   startWith,
   switchMap,
@@ -33,11 +33,21 @@ export class FlightLookaheadComponent implements OnInit {
   private refreshClickSubject = new Subject<void>();
   refreshClick$ = this.refreshClickSubject.asObservable();
 
+  basket$: Observable<Flight[]>;
+
+  private addToBasketSubject = new Subject<Flight>();
+  addToBasket$ = this.addToBasketSubject.asObservable();
+  history$: Observable<Flight[]>;
+
   refresh() {
     this.refreshClickSubject.next();
   }
 
   constructor(protected flightService: FlightService, protected cdRef: ChangeDetectorRef) {
+  }
+
+  select(f: Flight) {
+    this.addToBasketSubject.next(f);
   }
 
   ngOnInit(): void {
@@ -55,6 +65,7 @@ export class FlightLookaheadComponent implements OnInit {
         this.cdRef.detectChanges();
       })
     );
+
 
     const debouncedFrom$ = this.controlFrom.valueChanges.pipe(debounceTime(300));
     const debouncedTo$ = this.controlTo.valueChanges.pipe(debounceTime(300));
@@ -81,6 +92,18 @@ export class FlightLookaheadComponent implements OnInit {
     this.diff$ = this.flights$.pipe(
       pairwise(),
       map(([a, b]) => b.length - a.length)
+    );
+
+    this.basket$ = this.addToBasket$.pipe(
+      scan((acc, flight) => {
+        return [...acc, flight]
+      }, [])
+    );
+
+    this.history$ = this.flights$.pipe(
+      scan((acc, flight) => {
+        return [...acc, ...flight]
+      }, [])
     );
 
 

@@ -24,6 +24,7 @@ import { reducers, metaReducers } from './+state';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { EffectsModule } from '@ngrx/effects';
     SharedModule.forRoot(),
     RouterModule.forRoot(APP_ROUTES, {relativeLinkResolution: 'legacy'}),
     EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot({stateKey: 'router', routerState: RouterState.Minimal }),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],

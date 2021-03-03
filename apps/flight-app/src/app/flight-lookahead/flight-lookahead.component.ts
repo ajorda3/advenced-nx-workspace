@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, interval, merge, Observable, Subject } from 'rxjs';
+import { combineLatest, interval, merge, Observable, of, pipe, Subject } from 'rxjs';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
 import {
   catchError,
@@ -14,6 +14,14 @@ import {
   switchMap,
   tap
 } from 'rxjs/operators';
+
+type Projector<T, U> = (item: T) => Observable<U>;
+
+function switchMapCompensate<T,U>(projector: Projector<T,U>) {
+  return pipe(
+    switchMap( (p:T) => projector(p).pipe(catchError(_ => of([]))))
+  );
+}
 
 @Component({
   selector: 'flight-workspace-flight-lookahead',

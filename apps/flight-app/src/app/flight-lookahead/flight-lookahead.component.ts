@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { combineLatest, interval, merge, Observable, Subject } from 'rxjs';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -46,7 +47,8 @@ export class FlightLookaheadComponent implements OnInit {
     this.online$
       = interval(2000).pipe(
       startWith(0),
-      map(_ => Math.random() < 0.5),
+      // map(_ => Math.random() < 0.5),
+      map(_ => true),
       distinctUntilChanged(),
       tap(value => {
         this.online = value;
@@ -69,7 +71,11 @@ export class FlightLookaheadComponent implements OnInit {
     ).pipe(
       filter(([_, __, online]) => online),
       map(([value, valueTo, _]) => [value, valueTo]),
-      switchMap(([from, to]) => this.flightService.find(from, to))
+      switchMap(([from, to]) => this.flightService.find(from, to)),
+      catchError((e) => {
+        console.log('Error ' + e);
+        return [];
+      })
     );
 
     this.diff$ = this.flights$.pipe(

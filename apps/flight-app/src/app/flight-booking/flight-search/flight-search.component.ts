@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
-import {Component, OnInit} from '@angular/core';
-import {FlightService} from '@flight-workspace/flight-lib';
+import { Component, OnInit } from '@angular/core';
+import { Flight, FlightService } from '@flight-workspace/flight-lib';
+import { Store } from '@ngrx/store';
+import { FlightBookingAppState } from '../+state/flight-booking.reducer';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { flightsLoaded } from '../+state/flight-booking.actions';
 
 @Component({
   selector: 'flight-search',
@@ -14,6 +19,8 @@ export class FlightSearchComponent implements OnInit {
   to = 'Graz'; // in Austria
   urgent = false;
 
+  flights$: Observable<Flight[]>;
+
   get flights() {
     return this.flightService.flights;
   }
@@ -25,17 +32,21 @@ export class FlightSearchComponent implements OnInit {
   };
 
   constructor(
+    protected store: Store<FlightBookingAppState>,
     private flightService: FlightService) {
   }
 
   ngOnInit() {
+    this.flights$ = this.store.select(s => s.flightBooking.flights);
   }
 
   search(): void {
     if (!this.from || !this.to) return;
 
     this.flightService
-      .load(this.from, this.to, this.urgent);
+      .find(this.from, this.to, this.urgent).pipe(
+      tap((flights: Flight[]) => this.store.dispatch(flightsLoaded({flights})))
+    ).subscribe();
   }
 
   delay(): void {

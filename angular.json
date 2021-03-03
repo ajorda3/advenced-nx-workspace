@@ -118,7 +118,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/flight-app"],
+          "outputs": [
+            "coverage/apps/flight-app"
+          ],
           "options": {
             "jestConfig": "apps/flight-app/jest.config.js",
             "passWithNoTests": true
@@ -147,7 +149,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/flight-app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/flight-app-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -181,7 +185,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/flight-lib"],
+          "outputs": [
+            "coverage/libs/flight-lib"
+          ],
           "options": {
             "jestConfig": "libs/flight-lib/jest.config.js",
             "passWithNoTests": true
@@ -218,7 +224,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/logger-lib"],
+          "outputs": [
+            "coverage/libs/logger-lib"
+          ],
           "options": {
             "jestConfig": "libs/logger-lib/jest.config.js",
             "passWithNoTests": true
@@ -255,7 +263,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/dashboard-lib"],
+          "outputs": [
+            "coverage/libs/dashboard-lib"
+          ],
           "options": {
             "jestConfig": "libs/dashboard-lib/jest.config.js",
             "passWithNoTests": true
@@ -282,7 +292,9 @@
               "apps/flight-admin/src/favicon.ico",
               "apps/flight-admin/src/assets"
             ],
-            "styles": ["apps/flight-admin/src/styles.css"],
+            "styles": [
+              "apps/flight-admin/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -343,7 +355,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/flight-admin"],
+          "outputs": [
+            "coverage/apps/flight-admin"
+          ],
           "options": {
             "jestConfig": "apps/flight-admin/jest.config.js",
             "passWithNoTests": true
@@ -372,7 +386,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/flight-admin-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/flight-admin-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -384,7 +400,7 @@
       "prefix": "flight-workspace",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/apps/dashboard",
             "index": "apps/dashboard/src/index.html",
@@ -396,8 +412,19 @@
               "apps/dashboard/src/favicon.ico",
               "apps/dashboard/src/assets"
             ],
-            "styles": ["apps/dashboard/src/styles.css"],
-            "scripts": []
+            "styles": [
+              "apps/dashboard/src/styles.css"
+            ],
+            "scripts": [
+              {
+                "bundleName": "polyfill-webcomp-es5",
+                "input": "node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"
+              },
+              {
+                "bundleName": "polyfill-webcomp",
+                "input": "node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js"
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -430,7 +457,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "dashboard:build"
           },
@@ -456,8 +483,10 @@
           }
         },
         "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/dashboard"],
+          "builder": "ngx-build-plus:karma",
+          "outputs": [
+            "coverage/apps/dashboard"
+          ],
           "options": {
             "jestConfig": "apps/dashboard/jest.config.js",
             "passWithNoTests": true
@@ -486,7 +515,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/dashboard-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/dashboard-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -510,7 +541,9 @@
               "apps/external/src/favicon.ico",
               "apps/external/src/assets"
             ],
-            "styles": ["apps/external/src/styles.css"],
+            "styles": [
+              "apps/external/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -571,7 +604,9 @@
         },
         "test": {
           "builder": "ngx-build-plus:karma",
-          "outputs": ["coverage/apps/external"],
+          "outputs": [
+            "coverage/apps/external"
+          ],
           "options": {
             "jestConfig": "apps/external/jest.config.js",
             "passWithNoTests": true
@@ -600,7 +635,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/external-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/external-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -622,7 +659,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/passenger-api"],
+          "outputs": [
+            "coverage/libs/passenger-api"
+          ],
           "options": {
             "jestConfig": "libs/passenger-api/jest.config.js",
             "passWithNoTests": true
@@ -659,7 +698,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/luggage/domain"],
+          "outputs": [
+            "coverage/libs/luggage/domain"
+          ],
           "options": {
             "jestConfig": "libs/luggage/domain/jest.config.js",
             "passWithNoTests": true
@@ -686,7 +727,9 @@
               "apps/luggage/src/favicon.ico",
               "apps/luggage/src/assets"
             ],
-            "styles": ["apps/luggage/src/styles.scss"],
+            "styles": [
+              "apps/luggage/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -747,7 +790,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/luggage"],
+          "outputs": [
+            "coverage/apps/luggage"
+          ],
           "options": {
             "jestConfig": "apps/luggage/jest.config.js",
             "passWithNoTests": true
@@ -776,7 +821,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/luggage-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/luggage-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -810,7 +857,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/luggage/feature-checkin"],
+          "outputs": [
+            "coverage/libs/luggage/feature-checkin"
+          ],
           "options": {
             "jestConfig": "libs/luggage/feature-checkin/jest.config.js",
             "passWithNoTests": true
@@ -847,7 +896,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/luggage/feature-report-loss"],
+          "outputs": [
+            "coverage/libs/luggage/feature-report-loss"
+          ],
           "options": {
             "jestConfig": "libs/luggage/feature-report-loss/jest.config.js",
             "passWithNoTests": true
@@ -884,7 +935,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/luggage/ui-card"],
+          "outputs": [
+            "coverage/libs/luggage/ui-card"
+          ],
           "options": {
             "jestConfig": "libs/luggage/ui-card/jest.config.js",
             "passWithNoTests": true

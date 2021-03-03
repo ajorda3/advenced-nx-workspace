@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, interval, Observable } from 'rxjs';
+import { combineLatest, interval, merge, Observable, Subject } from 'rxjs';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
-import { debounceTime, distinctUntilChanged, filter, map, pairwise, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  pairwise,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap
+} from 'rxjs/operators';
 
 @Component({
   selector: 'flight-workspace-flight-lookahead',
@@ -19,7 +29,14 @@ export class FlightLookaheadComponent implements OnInit {
   online: boolean = false;
   online$: Observable<boolean>;
 
-  constructor(protected flightService: FlightService) {
+  private refreshClickSubject = new Subject<void>();
+  refreshClick$ = this.refreshClickSubject.asObservable();
+
+  refresh() {
+    this.refreshClickSubject.next();
+  }
+
+  constructor(protected flightService: FlightService, protected cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -31,34 +48,29 @@ export class FlightLookaheadComponent implements OnInit {
       startWith(0),
       map(_ => Math.random() < 0.5),
       distinctUntilChanged(),
-      tap(value => this.online = value)
+      tap(value => {
+        this.online = value;
+        this.cdRef.detectChanges();
+      })
     );
 
-    const inputFrom$ = this.controlFrom.valueChanges.pipe(
-      filter(term => term?.length > 2),
-      debounceTime(500));
+    const debouncedFrom$ = this.controlFrom.valueChanges.pipe(debounceTime(300));
+    const debouncedTo$ = this.controlTo.valueChanges.pipe(debounceTime(300));
 
+    const combined$ = combineLatest([debouncedFrom$, debouncedTo$, this.online$])
+      .pipe(shareReplay({bufferSize: 1, refCount: true}));
 
-    const inputTo$ = this.controlTo.valueChanges.pipe(
-      filter(term => term?.length > 2),
-      debounceTime(500));
+    this.flights$ = merge(
+      combined$,
+      this.refreshClick$.pipe(map(_ => [this.controlFrom.value, this.controlTo.value, this.online]))
 
-    this.flights$ = combineLatest([
-      inputFrom$,
-      inputTo$,
-      this.online$
-    ]).pipe(
-      filter(([from, to, online]) => {
-        return !!online && !!from && !!to
-      }),
-      tap(([from, to, online]) => {
-        this.online = !!online;
-      }),
-      tap(_ => this.loading = true),
-      switchMap(([from, to, online]) => this.flightService.find(from, to)),
-      tap(_ => this.loading = false)
+      // This is an alternative without side effects (like this.online):
+      // this.refreshClick$.pipe(switchMap(_ => combined$.pipe(take(1))))
+    ).pipe(
+      filter(([_, __, online]) => online),
+      map(([value, valueTo, _]) => [value, valueTo]),
+      switchMap(([from, to]) => this.flightService.find(from, to))
     );
-
 
     this.diff$ = this.flights$.pipe(
       pairwise(),

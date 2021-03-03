@@ -51,6 +51,7 @@
     "@swimlane/ngx-charts": "^17.0.0",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "angular-oauth2-oidc": "^10.0.3",
+    "ngrx-etc": "^5.0.2",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "^0.10.2"

@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import { concatMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-
-import * as FlightBookingActions from './flight-booking.actions';
-
+import { FlightService } from '@flight-workspace/flight-lib';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { flightsLoaded, loadFlights, loadFlightsError } from './flight-booking.actions';
+import { of } from 'rxjs';
 
 @Injectable()
 export class FlightBookingEffects {
 
-  //
-  // loadFlightBookings$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //
-  //     ofType(FlightBookingActions.loadFlightBookings),
-  //     /** An EMPTY observable only emits completion. Replace with your own observable API request */
-  //     concatMap(() => EMPTY)
-  //   );
-  // });
+  loadFlights = createEffect(() => this.actions$.pipe(
+    ofType(loadFlights),
+    switchMap(a => this.flightService.find(a.from, a.to, a.urgent).pipe(
+      map(flights => flightsLoaded({flights})),
+      catchError(err => of(loadFlightsError()))
+    )),
+  ));
 
-
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private flightService: FlightService) { 
+  }
 
 }

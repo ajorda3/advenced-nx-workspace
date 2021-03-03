@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Flight, FlightService } from '@flight-workspace/flight-lib';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
-import { flightsLoaded, updateFlight } from '../+state/flight-booking.actions';
+import { take } from 'rxjs/operators';
+import { loadFlights, updateFlight } from '../+state/flight-booking.actions';
 import { selectFlightsWithProps } from '../+state/flight-booking.selectors';
 
 @Component({
@@ -43,10 +43,16 @@ export class FlightSearchComponent implements OnInit {
   search(): void {
     if (!this.from || !this.to) return;
 
-    this.flightService
-      .find(this.from, this.to, this.urgent).pipe(
-      tap((flights: Flight[]) => this.store.dispatch(flightsLoaded({flights})))
-    ).subscribe();
+    this.store.dispatch(loadFlights({
+      from: this.from,
+      to: this.to,
+      urgent: this.urgent
+    }));
+
+    // this.flightService
+    //   .find(this.from, this.to, this.urgent).pipe(
+    //   tap((flights: Flight[]) => this.store.dispatch(flightsLoaded({flights})))
+    // ).subscribe();
   }
 
   delay(): void {

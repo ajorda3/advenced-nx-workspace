@@ -2,7 +2,7 @@ import { DashboardPageComponent } from './dashboard-page/dashboard-page.componen
 import {HttpClientModule} from '@angular/common/http';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardTileModule } from './dashboard-tile/dashboard-tile.module';
 import { DemoModule } from './demo/demo.module';
 import { DashboardLibModule } from '@flight-workspace/dashboard-lib';
+import { DashboardTileComponent } from './dashboard-tile/dashboard-tile.component';
+import { createCustomElement } from '@angular/elements';
 
 @NgModule({
    imports: [
@@ -39,11 +41,15 @@ import { DashboardLibModule } from '@flight-workspace/dashboard-lib';
    ],
    providers: [],
    schemas: [
-      //TODO: Add CUSTOM_ELEMENTS_SCHEMA
+     CUSTOM_ELEMENTS_SCHEMA
    ],
    bootstrap: [
       AppComponent
    ]
 })
 export class AppModule {
+  constructor(private injector: Injector) {
+    const tileElm = createCustomElement(DashboardTileComponent, { injector: this.injector });
+    customElements.define('dashboard-tile', tileElm);
+  }
 }
